@@ -13,8 +13,8 @@
     <style>
         @font-face {
             font-family: 'OCR A Extended';
-            src: url('fonts/OCR A Extended.woff2') format('woff2'),
-                 url('fonts/OCR A Extended.woff') format('woff');
+            src: url('fonts/ocrabeckerrus_lat.woff2') format('woff2'),
+                 url('fonts/ocrabeckerrus_lat.woff') format('woff');
             font-weight: normal;
             font-style: normal;
         }
@@ -624,6 +624,55 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Translations
+            const translations = {
+                en: {
+                    home: 'Home',
+                    teasers: 'Teasers',
+                    download: 'Download',
+                    watchTrailer: 'Watch Trailer',
+                    watchTeaser: 'Watch Teaser',
+                    closeTrailer: 'Close Trailer',
+                    closeTeaser: 'Close Teaser',
+                    comingSoon: 'COMING SOON',
+                    timeLabels: 'DAYS  HRS  MIN  SEC'
+                },
+                ru: {
+                    home: 'Главная',
+                    teasers: 'Тизеры',
+                    download: 'Скачать',
+                    watchTrailer: 'Смотреть трейлер',
+                    watchTeaser: 'Смотреть тизер',
+                    closeTrailer: 'Закрыть трейлер',
+                    closeTeaser: 'Закрыть тизер',
+                    comingSoon: 'СКОРО',
+                    timeLabels: 'ДНИ  ЧАС  МИН  СЕК'
+                }
+            };
+            
+            // Detect user language
+            let userLang = navigator.language || navigator.userLanguage;
+            userLang = userLang.toLowerCase().startsWith('ru') ? 'ru' : 'en';
+            const t = translations[userLang];
+            
+            // Apply translations
+            function applyTranslations() {
+                // Navigation links
+                document.querySelector('.nav-link[data-page="home"]').textContent = t.home;
+                document.querySelector('.nav-link[data-page="teasers"]').textContent = t.teasers;
+                document.querySelector('.nav-link[data-page="download"]').textContent = t.download;
+                
+                // Buttons
+                document.getElementById('watchTrailer').textContent = t.watchTrailer;
+                document.getElementById('watchTeaser').textContent = t.watchTeaser;
+                
+                // Countdown
+                document.querySelector('.countdown-title').textContent = t.comingSoon;
+                document.querySelector('.countdown-labels').textContent = t.timeLabels;
+            }
+            
+            applyTranslations();
+            
             // Navigation functionality
             const navLinks = document.querySelectorAll('.nav-link');
             const pages = document.querySelectorAll('.page');
@@ -664,7 +713,7 @@
             // Show trailer modal by default
             trailerModal.style.display = 'flex';
             createTrailerIframe();
-            watchTrailerButton.textContent = 'Close Trailer';
+            watchTrailerButton.textContent = t.closeTrailer;
             
             // Function to create a new YouTube iframe for teaser
             function createVideoIframe() {
@@ -716,12 +765,12 @@
                     // Create new iframe and open the modal
                     createVideoIframe();
                     videoModal.style.display = 'flex';
-                    watchTeaserButton.textContent = 'Close Teaser';
+                    watchTeaserButton.textContent = t.closeTeaser;
                 } else {
                     // Remove iframe and close the modal
                     removeVideoIframe();
                     videoModal.style.display = 'none';
-                    watchTeaserButton.textContent = 'Watch Teaser';
+                    watchTeaserButton.textContent = t.watchTeaser;
                 }
             });
             
@@ -731,12 +780,12 @@
                     // Create new iframe and open the modal
                     createTrailerIframe();
                     trailerModal.style.display = 'flex';
-                    watchTrailerButton.textContent = 'Close Trailer';
+                    watchTrailerButton.textContent = t.closeTrailer;
                 } else {
                     // Remove iframe and close the modal
                     removeTrailerIframe();
                     trailerModal.style.display = 'none';
-                    watchTrailerButton.textContent = 'Watch Trailer';
+                    watchTrailerButton.textContent = t.watchTrailer;
                 }
             });
             
@@ -744,14 +793,14 @@
             closeVideoButton.addEventListener('click', function() {
                 removeVideoIframe();
                 videoModal.style.display = 'none';
-                watchTeaserButton.textContent = 'Watch Teaser';
+                watchTeaserButton.textContent = t.watchTeaser;
             });
             
             // Close trailer modal
             closeTrailerButton.addEventListener('click', function() {
                 removeTrailerIframe();
                 trailerModal.style.display = 'none';
-                watchTrailerButton.textContent = 'Watch Trailer';
+                watchTrailerButton.textContent = t.watchTrailer;
             });
             
             // Close video modal on background click
@@ -759,7 +808,7 @@
                 if (e.target === videoModal) {
                     removeVideoIframe();
                     videoModal.style.display = 'none';
-                    watchTeaserButton.textContent = 'Watch Teaser';
+                    watchTeaserButton.textContent = t.watchTeaser;
                 }
             });
             
@@ -768,7 +817,7 @@
                 if (e.target === trailerModal) {
                     removeTrailerIframe();
                     trailerModal.style.display = 'none';
-                    watchTrailerButton.textContent = 'Watch Trailer';
+                    watchTrailerButton.textContent = t.watchTrailer;
                 }
             });
             
@@ -906,12 +955,12 @@
                         if (videoModal.style.display === 'flex') {
                             removeVideoIframe();
                             videoModal.style.display = 'none';
-                            watchTeaserButton.textContent = 'Watch Teaser';
+                            watchTeaserButton.textContent = t.watchTeaser;
                         }
                         if (trailerModal.style.display === 'flex') {
                             removeTrailerIframe();
                             trailerModal.style.display = 'none';
-                            watchTrailerButton.textContent = 'Watch Trailer';
+                            watchTrailerButton.textContent = t.watchTrailer;
                         }
                     }
                 });
